@@ -221,11 +221,14 @@ export function fmtCountdown(ms: number): string {
 	return days > 0 ? `${days}d ${hms}` : hms;
 }
 
-/** 由配置生成时段说明（控制在单行宽度内），避免把峰谷窗口写死在渲染代码里。 */
-export function describeSchedule(cfg: AppConfig): string {
+/** 由配置生成时段说明 */
+export function describeSchedule(cfg: AppConfig): string[] {
 	const days = [...new Set(cfg.peakDays)].sort((a, b) => a - b);
 	const dayLabel =
 		days.join(",") === "1,2,3,4,5" ? "一~五" : days.map((d) => WEEK[d] ?? "?").join("、");
 	const windowLabel = cfg.peakWindows.map((w) => `${hhmm(w.start)}-${hhmm(w.end)}`).join(" & ");
-	return `峰时：正常工作日 ${windowLabel}   ·  谷时：周末及法定节假日全天`;
+	return [
+		`峰时：正常工作日 ${windowLabel}`,
+		`谷时：周末及法定节假日全天`
+	];
 }

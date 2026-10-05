@@ -80,7 +80,9 @@ export default async function peakseekExtension(pi: ExtensionAPI) {
 				(lastUpdateReply ? theme.fg("muted", `  [${lastUpdateReply}]`) : "")
 		);
 		lines.push(theme.fg("dim", "计价单位：每百万 tokens  ·  谷价 = 峰价 ÷ 2  ·  北京时间"));
-		lines.push(theme.fg("dim", describeSchedule(cfg)));
+		describeSchedule(cfg).forEach((item) => {
+			lines.push(theme.fg("dim", item))
+		});
 
 		for (const m of cfg.models) {
 			const cur = st.isPeak
